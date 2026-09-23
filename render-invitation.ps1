@@ -1,71 +1,108 @@
+param(
+  [string]$BackgroundPath = (Join-Path $PSScriptRoot 'source-assets/invitation-background.png'),
+  [string]$FontPath = (Join-Path $PSScriptRoot 'source-assets/fonts/CormorantGaramond-Regular.ttf'),
+  [string]$OutputPath = (Join-Path $PSScriptRoot 'dist/assets/invitation.png')
+)
+
 Add-Type -AssemblyName System.Drawing
 
-$projectDir = Split-Path -Parent $MyInvocation.MyCommand.Path
-$sourcePath = Join-Path $projectDir 'dist\assets\invitation-art.png'
-$outputPath = Join-Path $projectDir 'dist\assets\invitation.png'
-
-$source = [System.Drawing.Image]::FromFile($sourcePath)
-$canvas = New-Object System.Drawing.Bitmap 1080, 1350
-$canvas.SetResolution(144, 144)
-$graphics = [System.Drawing.Graphics]::FromImage($canvas)
+$background = [System.Drawing.Image]::FromFile($BackgroundPath)
+$bitmap = New-Object System.Drawing.Bitmap($background.Width, $background.Height, [System.Drawing.Imaging.PixelFormat]::Format32bppArgb)
+$bitmap.SetResolution(144, 144)
+$graphics = [System.Drawing.Graphics]::FromImage($bitmap)
 $graphics.SmoothingMode = [System.Drawing.Drawing2D.SmoothingMode]::AntiAlias
 $graphics.InterpolationMode = [System.Drawing.Drawing2D.InterpolationMode]::HighQualityBicubic
+$graphics.PixelOffsetMode = [System.Drawing.Drawing2D.PixelOffsetMode]::HighQuality
 $graphics.TextRenderingHint = [System.Drawing.Text.TextRenderingHint]::AntiAliasGridFit
-$graphics.DrawImage($source, 0, 0, 1080, 1350)
+$graphics.DrawImage($background, 0, 0, $bitmap.Width, $bitmap.Height)
 
-$ink = [System.Drawing.Color]::FromArgb(255, 19, 44, 69)
-$coral = [System.Drawing.Color]::FromArgb(255, 174, 91, 72)
-$gold = [System.Drawing.Color]::FromArgb(255, 174, 132, 58)
-$muted = [System.Drawing.Color]::FromArgb(255, 67, 83, 95)
-$inkBrush = New-Object System.Drawing.SolidBrush $ink
-$coralBrush = New-Object System.Drawing.SolidBrush $coral
-$goldPen = New-Object System.Drawing.Pen $gold, 2
-$mutedBrush = New-Object System.Drawing.SolidBrush $muted
+$fonts = New-Object System.Drawing.Text.PrivateFontCollection
+$fonts.AddFontFile($FontPath)
+$family = $fonts.Families[0]
 
-$center = New-Object System.Drawing.StringFormat
-$center.Alignment = [System.Drawing.StringAlignment]::Center
-$center.LineAlignment = [System.Drawing.StringAlignment]::Center
+$navy = New-Object System.Drawing.SolidBrush([System.Drawing.Color]::FromArgb(255, 16, 43, 70))
+$slate = New-Object System.Drawing.SolidBrush([System.Drawing.Color]::FromArgb(255, 48, 70, 90))
+$coral = New-Object System.Drawing.SolidBrush([System.Drawing.Color]::FromArgb(255, 180, 93, 73))
+$goldPen = New-Object System.Drawing.Pen([System.Drawing.Color]::FromArgb(205, 184, 145, 68), 2)
+$pinPen = New-Object System.Drawing.Pen([System.Drawing.Color]::FromArgb(255, 16, 43, 70), 4)
 
-$small = New-Object System.Drawing.Font 'Segoe UI', 18, ([System.Drawing.FontStyle]::Regular)
-$names = New-Object System.Drawing.Font 'Georgia', 82, ([System.Drawing.FontStyle]::Regular)
-$amp = New-Object System.Drawing.Font 'Georgia', 38, ([System.Drawing.FontStyle]::Italic)
-$date = New-Object System.Drawing.Font 'Georgia', 28, ([System.Drawing.FontStyle]::Regular)
-$venue = New-Object System.Drawing.Font 'Segoe UI', 22, ([System.Drawing.FontStyle]::Regular)
-$family = New-Object System.Drawing.Font 'Georgia', 17, ([System.Drawing.FontStyle]::Regular)
-
-function Draw-CenteredText($text, $font, $brush, $y, $height) {
-  $rect = New-Object System.Drawing.RectangleF 210, $y, 660, $height
-  $graphics.DrawString($text, $font, $brush, $rect, $center)
+function New-InviteFont([float]$size) {
+  return New-Object System.Drawing.Font($family, $size, [System.Drawing.FontStyle]::Regular, [System.Drawing.GraphicsUnit]::Pixel)
 }
 
-Draw-CenteredText 'DÜĞÜNÜMÜZE DAVETLİSİNİZ' $small $mutedBrush 205 42
-Draw-CenteredText 'Cansu' $names $inkBrush 280 115
-Draw-CenteredText '&' $amp $coralBrush 382 70
-Draw-CenteredText 'Çağrı' $names $inkBrush 442 115
+function Draw-CenteredText {
+  param(
+    [string]$Text,
+    [System.Drawing.Font]$Font,
+    [System.Drawing.Brush]$Brush,
+    [float]$Y,
+    [float]$Height,
+    [float]$Inset = 90
+  )
+  $format = New-Object System.Drawing.StringFormat
+  $format.Alignment = [System.Drawing.StringAlignment]::Center
+  $format.LineAlignment = [System.Drawing.StringAlignment]::Center
+  $format.Trimming = [System.Drawing.StringTrimming]::None
+  $format.FormatFlags = [System.Drawing.StringFormatFlags]::NoClip
+  $rect = New-Object System.Drawing.RectangleF($Inset, $Y, ($bitmap.Width - (2 * $Inset)), $Height)
+  $graphics.DrawString($Text, $Font, $Brush, $rect, $format)
+  $format.Dispose()
+}
 
-$graphics.DrawLine($goldPen, 315, 595, 765, 595)
-Draw-CenteredText '31 EKİM 2026  ·  18.30' $date $inkBrush 620 55
-Draw-CenteredText 'SUARE EVENT · TUZLA' $venue $mutedBrush 685 48
+$fontHeader = New-InviteFont 34
+$fontName = New-InviteFont 132
+$fontAmpersand = New-InviteFont 62
+$fontDate = New-InviteFont 50
+$fontVenue = New-InviteFont 44
+$fontAddress = New-InviteFont 27
+$fontFamily = New-InviteFont 31
+$fontClosing = New-InviteFont 35
 
-$graphics.DrawLine($goldPen, 385, 778, 695, 778)
-Draw-CenteredText 'TÜRKAN & NEVAİP İSKENDER' $family $mutedBrush 800 38
-Draw-CenteredText 'SARE & UFUK TERZİBAŞ' $family $mutedBrush 845 38
-Draw-CenteredText 'Sevincimizi paylaşmanız dileğiyle…' $family $inkBrush 920 48
+Draw-CenteredText 'DÜĞÜNÜMÜZE DAVETLİSİNİZ' $fontHeader $slate 155 55 160
+Draw-CenteredText 'Cansu' $fontName $navy 220 160 130
+Draw-CenteredText '&' $fontAmpersand $coral 356 78 130
+Draw-CenteredText 'Çağrı' $fontName $navy 420 170 130
 
-$canvas.Save($outputPath, [System.Drawing.Imaging.ImageFormat]::Png)
+$graphics.DrawLine($goldPen, 315, 602, 807, 602)
+Draw-CenteredText '31 EKİM 2026  ·  18.30' $fontDate $navy 615 65 130
 
-$small.Dispose()
-$names.Dispose()
-$amp.Dispose()
-$date.Dispose()
-$venue.Dispose()
-$family.Dispose()
-$inkBrush.Dispose()
-$coralBrush.Dispose()
-$mutedBrush.Dispose()
+$venueText = 'SUARE EVENT'
+$venueSize = $graphics.MeasureString($venueText, $fontVenue)
+$venueX = (($bitmap.Width - $venueSize.Width) / 2)
+$pinX = $venueX - 42
+$pinY = 696
+$pinPath = New-Object System.Drawing.Drawing2D.GraphicsPath
+$pinPath.AddBezier($pinX + 14, $pinY + 34, $pinX + 2, $pinY + 19, $pinX + 3, $pinY + 7, $pinX + 14, $pinY + 4)
+$pinPath.AddBezier($pinX + 14, $pinY + 4, $pinX + 25, $pinY + 7, $pinX + 26, $pinY + 19, $pinX + 14, $pinY + 34)
+$graphics.DrawPath($pinPen, $pinPath)
+$graphics.DrawEllipse($pinPen, $pinX + 10, $pinY + 11, 8, 8)
+$pinPath.Dispose()
+Draw-CenteredText $venueText $fontVenue $navy 680 62 170
+Draw-CenteredText 'Cami mah, Balıkçılar Sk. No:14/1, 34000 Tuzla/İstanbul' $fontAddress $slate 735 54 155
+
+$graphics.DrawLine($goldPen, 390, 801, 732, 801)
+Draw-CenteredText 'TÜRKAN & NEVAİP İSKENDER' $fontFamily $slate 820 48 150
+Draw-CenteredText 'SARE & UFUK TERZİBAŞ' $fontFamily $slate 862 48 150
+Draw-CenteredText 'Sevincimizi paylaşmanız dileğiyle…' $fontClosing $navy 925 58 150
+
+$bitmap.Save($OutputPath, [System.Drawing.Imaging.ImageFormat]::Png)
+
+$fontHeader.Dispose()
+$fontName.Dispose()
+$fontAmpersand.Dispose()
+$fontDate.Dispose()
+$fontVenue.Dispose()
+$fontAddress.Dispose()
+$fontFamily.Dispose()
+$fontClosing.Dispose()
+$pinPen.Dispose()
 $goldPen.Dispose()
+$navy.Dispose()
+$slate.Dispose()
+$coral.Dispose()
+$fonts.Dispose()
 $graphics.Dispose()
-$canvas.Dispose()
-$source.Dispose()
+$bitmap.Dispose()
+$background.Dispose()
 
-Write-Output $outputPath
+Write-Output $OutputPath
