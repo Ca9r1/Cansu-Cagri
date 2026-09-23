@@ -165,9 +165,11 @@ button, a { -webkit-tap-highlight-color: transparent; }
   font-style: italic;
   font-size: clamp(1.05rem, 2.2vw, 1.4rem);
 }
-.scroll-story .venue-line {
-  font-size: clamp(1.7rem, 4vw, 2.7rem);
-}
+.hero-address { width: min(40rem, calc(100% - 2rem)); display: inline-flex; align-items: center; justify-content: center; gap: .85rem; margin-top: 1.25rem; color: inherit; font-family: var(--serif); font-size: clamp(.95rem, 1.8vw, 1.15rem); font-style: italic; line-height: 1.35; text-align: left; text-decoration: none; text-underline-offset: .3rem; pointer-events: auto; }
+.hero-address:hover span { text-decoration: underline; }
+.hero-address:focus-visible { outline: 2px solid currentColor; outline-offset: .45rem; }
+.hero-address svg { width: 2.4rem; flex: 0 0 auto; fill: none; stroke: var(--coral); stroke-width: 1.5; }
+.hero-address strong { display: block; margin-bottom: .12rem; font-size: 1.2em; font-weight: 500; }
 .scroll-story .scroll-cue { z-index: 8; left: 50%; transform: translateX(-50%); transition: opacity .3s ease; }
 
 .progress {
@@ -243,7 +245,6 @@ button, a { -webkit-tap-highlight-color: transparent; }
   font-size: .9rem;
 }
 .date-line span { padding-left: 1rem; border-left: 1px solid rgba(19,44,69,.4); }
-.venue-line { margin: 0; font-family: var(--serif); font-size: 1.1rem; font-style: italic; }
 .scroll-cue {
   position: absolute;
   bottom: 1.6rem;
@@ -362,7 +363,7 @@ footer a { margin-top: 1rem; text-transform: uppercase; letter-spacing: .16em; f
   .paper-orbit { width: min(78vw, 25rem); }
   .script-note { font-size: clamp(3.9rem, 18vw, 5.8rem); }
   .scroll-story .date-line { font-size: 1rem; }
-  .scroll-story .venue-line { font-size: 1.75rem; }
+  .hero-address { width: min(21rem, calc(100% - 1.5rem)); font-size: .92rem; }
   .hero-art { background-position: center; }
   .hero::after { background: rgba(247,241,229,.42); }
   .hero h1 { flex-direction: column; gap: .25rem; }
