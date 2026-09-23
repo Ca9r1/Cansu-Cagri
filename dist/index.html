@@ -7,25 +7,50 @@
     <meta name="description" content="Cansu ve Çağrı'nın 31 Ekim 2026 tarihli düğün davetiyesi." />
     <title>Cansu & Çağrı | 31 Ekim 2026</title>
     <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='32' fill='%23132c45'/%3E%3Cpath d='M17 44h30M21 40h22M24 17h16l4 6H20l4-6Zm0 9h4v12h-4V26Zm12 0h4v12h-4V26Z' fill='none' stroke='%23f3c86b' stroke-width='3' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;1,400;1,500&family=Italianno&display=swap" rel="stylesheet" />
     <link rel="stylesheet" href="./styles.css" />
     <script src="./script.js" defer></script>
   </head>
   <body>
     <div class="progress" aria-hidden="true"><span id="progressBar"></span></div>
 
-    <header class="hero" id="baslangic">
-      <div class="hero-art" aria-hidden="true"></div>
-      <div class="sun-disc" aria-hidden="true"></div>
-      <div class="hero-copy reveal is-visible">
-        <p class="eyebrow">Düğünümüze davetlisiniz</p>
-        <h1><span>Cansu</span><i>&</i><span>Çağrı</span></h1>
-        <p class="date-line"><strong>31 Ekim 2026</strong><span>18.30</span></p>
-        <p class="venue-line">Suare Event · Tuzla</p>
+    <header class="parallax-story" id="baslangic">
+      <div class="parallax-sticky" id="parallaxScene">
+        <div class="art-layer art-back" aria-hidden="true"></div>
+        <div class="art-layer art-mid" aria-hidden="true"></div>
+        <div class="art-layer art-front" aria-hidden="true"></div>
+
+        <div class="paper-orbit" id="paperOrbit" aria-hidden="true"></div>
+
+        <div class="hero-beats" aria-live="polite">
+          <div class="hero-beat beat-one" data-beat="1">
+            <p class="eyebrow">Düğünümüze davetlisiniz</p>
+            <h1><span>Cansu</span><i>&</i><span>Çağrı</span></h1>
+          </div>
+          <div class="hero-beat beat-two" data-beat="2">
+            <p class="script-note">Birlikte, aynı yöne…</p>
+            <p class="date-line"><strong>31 Ekim 2026</strong><span>18.30</span></p>
+            <p class="venue-line">Suare Event · Tuzla</p>
+          </div>
+          <div class="hero-beat beat-three" data-beat="3">
+            <p class="script-note">Bu güzel başlangıca<br />siz de tanık olun.</p>
+            <p class="final-note">Sevincimizi paylaşmanız dileğiyle</p>
+          </div>
+        </div>
+
+        <button class="motion-button" id="motionButton" type="button" hidden>
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2v20M5 6l7-4 7 4M5 18l7 4 7-4" /></svg>
+          <span>Hareketi Aç</span>
+        </button>
+        <p class="motion-status" id="motionStatus" aria-live="polite"></p>
+
+        <a class="scroll-cue" id="scrollCue" href="#detaylar" aria-label="Davet detaylarına ilerle">
+          <span>Kaydır</span>
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="m6 9 6 6 6-6" /></svg>
+        </a>
       </div>
-      <a class="scroll-cue" href="#detaylar" aria-label="Davet detaylarına ilerle">
-        <span>Hikâyemize doğru</span>
-        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="m6 9 6 6 6-6" /></svg>
-      </a>
     </header>
 
     <main>
