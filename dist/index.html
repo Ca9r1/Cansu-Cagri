@@ -3,7 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta name="theme-color" content="#132c45" />
+    <meta name="theme-color" content="#f5eee1" />
     <meta name="description" content="Cansu ve Çağrı'nın 31 Ekim 2026 tarihli düğün davetiyesi." />
     <title>Cansu & Çağrı | 31 Ekim 2026</title>
     <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='32' fill='%23132c45'/%3E%3Cpath d='M17 44h30M21 40h22M24 17h16l4 6H20l4-6Zm0 9h4v12h-4V26Zm12 0h4v12h-4V26Z' fill='none' stroke='%23f3c86b' stroke-width='3' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E" />
@@ -16,137 +16,82 @@
   <body>
     <div class="progress" aria-hidden="true"><span id="progressBar"></span></div>
 
-    <header class="parallax-story" id="baslangic">
-      <div class="parallax-sticky" id="parallaxScene">
-        <div class="art-layer art-back" aria-hidden="true"></div>
-        <div class="art-layer art-mid" aria-hidden="true"></div>
-        <div class="art-layer art-front" aria-hidden="true"></div>
-        <div class="sunset-warm" aria-hidden="true"></div>
-        <div class="sunset-night" aria-hidden="true"></div>
+    <main class="scroll-story" id="baslangic">
+      <div class="story-backdrop" aria-hidden="true"></div>
 
-        <div class="paper-orbit" id="paperOrbit" aria-hidden="true"></div>
-
-        <div class="hero-beats" aria-live="polite">
-          <div class="hero-beat beat-one" data-beat="1">
-            <p class="eyebrow">Düğünümüze davetlisiniz</p>
-            <h1><span>Cansu</span><i>&</i><span>Çağrı</span></h1>
-          </div>
-          <div class="hero-beat beat-two" data-beat="2">
-            <p class="script-note">Birlikte, aynı yöne…</p>
-            <p class="date-line"><strong>31 Ekim 2026</strong><span>18.30</span></p>
-            <p class="venue-line">Suare Event · Tuzla</p>
-          </div>
-          <div class="hero-beat beat-three" data-beat="3">
-            <p class="script-note">Bu güzel başlangıca<br />siz de tanık olun.</p>
-            <p class="final-note">Sevincimizi paylaşmanız dileğiyle</p>
-          </div>
+      <section class="story-panel opening is-visible">
+        <div class="story-copy">
+          <p class="eyebrow">Düğünümüze davetlisiniz</p>
+          <h1><span>Cansu</span><i>&</i><span>Çağrı</span></h1>
+          <p class="opening-date">31 Ekim 2026 · 18.30</p>
+          <p class="opening-venue">Suare Event · Tuzla</p>
         </div>
-
-        <button class="motion-button" id="motionButton" type="button">
-          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2v20M5 6l7-4 7 4M5 18l7 4 7-4" /></svg>
-          <span>Hareketi Aç</span>
-        </button>
-        <p class="motion-status" id="motionStatus" aria-live="polite"></p>
-        <a class="secure-link" id="secureLink" href="https://cansu-ve-cagri-dugun.ca9.chatgpt.site" hidden>HTTPS sürümünü aç</a>
-
-        <a class="scroll-cue" id="scrollCue" href="#detaylar" aria-label="Davet detaylarına ilerle">
+        <a class="scroll-cue" href="#davet" aria-label="Daveti okumaya devam et">
           <span>Kaydır</span>
           <svg viewBox="0 0 24 24" aria-hidden="true"><path d="m6 9 6 6 6-6" /></svg>
         </a>
-      </div>
-    </header>
+      </section>
 
-    <main>
-      <section class="intro stage" id="detaylar">
-        <div class="column column-left" aria-hidden="true"><span></span></div>
-        <div class="column column-right" aria-hidden="true"><span></span></div>
-        <div class="stage-copy reveal">
+      <section class="story-panel" id="davet">
+        <div class="story-copy">
           <p class="section-number">I</p>
-          <p class="kicker">Birlikte, aynı yöne</p>
+          <p class="script-heading">Birlikte, aynı yöne…</p>
           <h2>Bu güzel başlangıca<br />siz de tanık olun.</h2>
           <p class="body-copy">Sevincimizi paylaşmanız ve bu özel akşamda yanımızda olmanız dileğiyle…</p>
-          <div class="ornament" aria-hidden="true"><span></span>✦<span></span></div>
         </div>
       </section>
 
-      <section class="countdown-section">
-        <div class="section-heading reveal">
+      <section class="story-panel">
+        <div class="story-copy">
           <p class="section-number">II</p>
-          <p class="kicker">31 Ekim 2026 · Cumartesi</p>
+          <p class="eyebrow">31 Ekim 2026 · Cumartesi</p>
           <h2>O güne kalan</h2>
+          <div class="countdown" id="countdown" aria-label="Düğüne kalan süre">
+            <div><strong id="days">00</strong><span>Gün</span></div><i>·</i>
+            <div><strong id="hours">00</strong><span>Saat</span></div><i>·</i>
+            <div><strong id="minutes">00</strong><span>Dakika</span></div><i>·</i>
+            <div><strong id="seconds">00</strong><span>Saniye</span></div>
+          </div>
+          <p class="status-line" id="countdownNote" aria-live="polite"></p>
         </div>
-        <div class="countdown reveal" id="countdown" aria-label="Düğüne kalan süre">
-          <div><strong id="days">00</strong><span>Gün</span></div>
-          <i>:</i>
-          <div><strong id="hours">00</strong><span>Saat</span></div>
-          <i>:</i>
-          <div><strong id="minutes">00</strong><span>Dakika</span></div>
-          <i>:</i>
-          <div><strong id="seconds">00</strong><span>Saniye</span></div>
-        </div>
-        <p class="countdown-note" id="countdownNote" aria-live="polite"></p>
       </section>
 
-      <section class="families stage">
-        <div class="family-lines reveal">
+      <section class="story-panel">
+        <div class="story-copy family-copy">
           <p class="section-number">III</p>
-          <p class="kicker">Ailelerimiz</p>
-          <div class="family-grid">
-            <article>
-              <span>Gelin Ailesi</span>
-              <h3>Türkan &<br />Nevaip İskender</h3>
-            </article>
-            <div class="family-seal" aria-hidden="true">C<span>✦</span>Ç</div>
-            <article>
-              <span>Damat Ailesi</span>
-              <h3>Sare &<br />Ufuk Terzibaş</h3>
-            </article>
+          <p class="eyebrow">Ailelerimiz</p>
+          <div class="families">
+            <div><span>Gelin Ailesi</span><h3>Türkan &<br />Nevaip İskender</h3></div>
+            <b aria-hidden="true">✦</b>
+            <div><span>Damat Ailesi</span><h3>Sare &<br />Ufuk Terzibaş</h3></div>
           </div>
         </div>
       </section>
 
-      <section class="location-section" id="konum">
-        <div class="location-card reveal">
-          <div class="location-glyph" aria-hidden="true">
-            <svg viewBox="0 0 48 48"><path d="M24 43s13-12.1 13-25A13 13 0 0 0 11 18c0 12.9 13 25 13 25Z"/><circle cx="24" cy="18" r="4.5"/></svg>
-          </div>
+      <section class="story-panel" id="konum">
+        <div class="story-copy">
           <p class="section-number">IV</p>
-          <p class="kicker">Buluşma Noktamız</p>
+          <p class="eyebrow">Buluşma Noktamız</p>
           <h2>Suare Event</h2>
-          <p>Tuzla · İstanbul</p>
-          <p class="location-time">31 Ekim 2026, 18.30</p>
-          <a class="primary-button" href="https://www.google.com/maps?q=40.81470227696305,29.313173413263396" target="_blank" rel="noopener noreferrer">
-            <span>Konuma Git</span>
-            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="m9 18 6-6-6-6" /></svg>
-          </a>
-          <small>40.814702, 29.313173</small>
+          <p class="script-heading small-script">Tuzla · İstanbul</p>
+          <p class="body-copy">31 Ekim 2026, 18.30</p>
+          <a class="action-link" href="https://www.google.com/maps?q=40.81470227696305,29.313173413263396" target="_blank" rel="noopener noreferrer">Konuma Git <span>↗</span></a>
         </div>
       </section>
 
-      <section class="invitation-section" id="davetiye">
-        <div class="invite-intro reveal">
+      <section class="story-panel final-panel" id="davetiye">
+        <div class="story-copy">
           <p class="section-number">V</p>
-          <p class="kicker">Yanınızda taşıyın</p>
-          <h2>Görsel Davetiye</h2>
-          <p>Kaydedin veya sevdiklerinizle paylaşın.</p>
-        </div>
-        <div class="invitation-wrap reveal">
-          <div class="invitation-preview" id="invitePreview">
-            <img src="./assets/invitation.png" alt="Cansu ve Çağrı'nın paylaşılabilir düğün davetiyesi" />
+          <p class="script-heading">Sizi aramızda görmek dileğiyle</p>
+          <p class="final-names">Cansu <i>&</i> Çağrı</p>
+          <div class="actions">
+            <a class="action-link" href="./assets/invitation.png" download="Cansu-ve-Cagri-Dugun-Davetiyesi.png">Davetiyeyi İndir <span>↓</span></a>
+            <button class="text-button" id="shareButton" type="button">Paylaş <span>↗</span></button>
           </div>
-          <div class="invite-actions">
-            <a class="primary-button" href="./assets/invitation.png" download="Cansu-ve-Cagri-Dugun-Davetiyesi.png">Davetiyeyi İndir</a>
-            <button class="secondary-button" id="shareButton" type="button">Paylaş</button>
-          </div>
-          <p class="share-status" id="shareStatus" aria-live="polite"></p>
+          <p class="status-line" id="shareStatus" aria-live="polite"></p>
+          <a class="back-link" href="#baslangic">Başa dön</a>
         </div>
       </section>
     </main>
-
-    <footer>
-      <p>Cansu <span>&</span> Çağrı</p>
-      <small>31 · 10 · 2026</small>
-      <a href="#baslangic">Başa dön</a>
-    </footer>
   </body>
 </html>
