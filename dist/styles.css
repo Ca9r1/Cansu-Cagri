@@ -181,8 +181,24 @@ button, a { -webkit-tap-highlight-color: transparent; }
   cursor: pointer;
 }
 .motion-button[hidden] { display: none; }
+.motion-button:disabled { opacity: .68; cursor: wait; }
 .motion-button svg { width: 1rem; fill: none; stroke: currentColor; stroke-width: 1.5; }
-.motion-status { position: absolute; z-index: 9; right: 1.2rem; top: 3.6rem; margin: 0; font-size: .7rem; }
+.motion-status { position: absolute; z-index: 9; right: 1.2rem; top: 3.6rem; max-width: 18rem; margin: 0; font-size: .72rem; text-align: right; }
+.secure-link {
+  position: absolute;
+  z-index: 9;
+  top: 5.1rem;
+  right: 1.2rem;
+  padding: .55rem .75rem;
+  border-radius: 999px;
+  background: var(--ink);
+  color: var(--paper);
+  font-size: .68rem;
+  letter-spacing: .08em;
+  text-transform: uppercase;
+  text-underline-offset: .2rem;
+}
+.secure-link[hidden] { display: none; }
 .parallax-story .scroll-cue { z-index: 8; left: 50%; transform: translateX(-50%); transition: opacity .3s ease; }
 
 .progress {
@@ -384,7 +400,8 @@ footer a { margin-top: 1rem; text-transform: uppercase; letter-spacing: .16em; f
   .parallax-story .date-line { font-size: 1rem; }
   .parallax-story .venue-line { font-size: 1.75rem; }
   .motion-button { left: 50%; right: auto; transform: translateX(-50%); white-space: nowrap; }
-  .motion-status { left: 50%; right: auto; width: max-content; transform: translateX(-50%); }
+  .motion-status { left: 50%; right: auto; top: 4.05rem; width: min(88vw, 22rem); max-width: none; transform: translateX(-50%); text-align: center; }
+  .secure-link { left: 50%; right: auto; top: 6.2rem; width: max-content; transform: translateX(-50%); }
   .hero-art { background-position: center; }
   .hero::after { background: rgba(247,241,229,.42); }
   .hero h1 { flex-direction: column; gap: .25rem; }

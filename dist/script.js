@@ -80,7 +80,15 @@ function setTilt(x, y) {
 
 function handleOrientation(event) {
   if (event.gamma == null || event.beta == null) return;
+  confirmMotionSignal();
   setTilt(event.gamma * .65, (event.beta - 45) * .28);
+}
+
+function handleDeviceMotion(event) {
+  const gravity = event.accelerationIncludingGravity;
+  if (!gravity || gravity.x == null || gravity.y == null) return;
+  confirmMotionSignal();
+  setTilt(gravity.x * 2.2, -gravity.y * 1.35);
 }
 
 if (window.matchMedia('(pointer: fine)').matches) {
@@ -94,27 +102,88 @@ if (window.matchMedia('(pointer: fine)').matches) {
 
 const motionButton = document.getElementById('motionButton');
 const motionStatus = document.getElementById('motionStatus');
+const secureLink = document.getElementById('secureLink');
+let motionSignalSeen = false;
+let genericSensor;
 
-if ('DeviceOrientationEvent' in window) {
-  if (typeof DeviceOrientationEvent.requestPermission === 'function') {
-    motionButton.hidden = false;
-    motionButton.addEventListener('click', async () => {
-      try {
-        const permission = await DeviceOrientationEvent.requestPermission();
-        if (permission === 'granted') {
-          window.addEventListener('deviceorientation', handleOrientation, { passive: true });
-          motionButton.hidden = true;
-          motionStatus.textContent = 'Hareket açık';
-        } else {
-          motionStatus.textContent = 'Hareket izni verilmedi';
-        }
-      } catch {
-        motionStatus.textContent = 'Hareket yalnızca güvenli bağlantıda açılır';
-      }
+function confirmMotionSignal() {
+  if (motionSignalSeen) return;
+  motionSignalSeen = true;
+  motionButton.hidden = true;
+  motionButton.disabled = false;
+  motionStatus.textContent = 'Jiroskop açık';
+  window.setTimeout(() => { motionStatus.textContent = ''; }, 1800);
+}
+
+function attachMotionListeners() {
+  window.addEventListener('deviceorientation', handleOrientation, { passive: true });
+  window.addEventListener('deviceorientationabsolute', handleOrientation, { passive: true });
+  window.addEventListener('devicemotion', handleDeviceMotion, { passive: true });
+}
+
+function startGenericSensorFallback() {
+  const SensorType = window.GravitySensor || window.Accelerometer;
+  if (!SensorType || genericSensor) return;
+  try {
+    genericSensor = new SensorType({ frequency: 30 });
+    genericSensor.addEventListener('reading', () => {
+      if (genericSensor.x == null || genericSensor.y == null) return;
+      confirmMotionSignal();
+      setTilt(genericSensor.x * 2.1, -genericSensor.y * 1.35);
     });
-  } else {
-    window.addEventListener('deviceorientation', handleOrientation, { passive: true });
+    genericSensor.start();
+  } catch {
+    genericSensor = undefined;
   }
+}
+
+async function askSensorPermission(EventType) {
+  if (!EventType || typeof EventType.requestPermission !== 'function') return 'granted';
+  return EventType.requestPermission();
+}
+
+async function enableMotion() {
+  if (!window.isSecureContext) {
+    motionStatus.textContent = 'Jiroskop için güvenli HTTPS bağlantısını açın';
+    secureLink.hidden = false;
+    return;
+  }
+
+  motionButton.disabled = true;
+  motionButton.querySelector('span').textContent = 'Sensör bekleniyor';
+  motionStatus.textContent = 'Telefonu hafifçe sağa ve sola eğin';
+
+  try {
+    const orientationPermission = await askSensorPermission(window.DeviceOrientationEvent);
+    const motionPermission = await askSensorPermission(window.DeviceMotionEvent);
+    if (orientationPermission !== 'granted' || motionPermission !== 'granted') {
+      motionStatus.textContent = 'Hareket sensörü izni verilmedi';
+      motionButton.disabled = false;
+      motionButton.querySelector('span').textContent = 'Tekrar Dene';
+      return;
+    }
+
+    attachMotionListeners();
+    startGenericSensorFallback();
+
+    window.setTimeout(() => {
+      if (motionSignalSeen) return;
+      motionButton.disabled = false;
+      motionButton.querySelector('span').textContent = 'Tekrar Dene';
+      motionStatus.textContent = 'Chrome site ayarlarından “Hareket sensörleri” iznini açın';
+    }, 3500);
+  } catch {
+    motionButton.disabled = false;
+    motionButton.querySelector('span').textContent = 'Tekrar Dene';
+    motionStatus.textContent = 'Sensör açılamadı; Chrome site izinlerini kontrol edin';
+  }
+}
+
+motionButton.addEventListener('click', enableMotion);
+
+if (!window.isSecureContext) {
+  motionStatus.textContent = 'Jiroskop için HTTPS bağlantısını kullanın';
+  secureLink.hidden = false;
 }
 
 const weddingDate = new Date('2026-10-31T18:30:00+03:00');
