@@ -272,6 +272,8 @@ button, a { -webkit-tap-highlight-color: transparent; }
   letter-spacing: -.045em;
 }
 .body-copy { max-width: 31rem; margin: 2rem auto 0; line-height: 1.8; color: rgba(247,241,229,.75); font-family: var(--serif); font-size: 1.08rem; }
+.intro .kicker,
+.intro h2 { font-family: var(--serif); font-style: normal; }
 .family-kicker { margin: 3rem 0 0; color: var(--gold); font-family: var(--serif); font-size: 1.1rem; font-style: italic; }
 .intro-families { display: grid; grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr); align-items: center; gap: clamp(1.25rem, 4vw, 3.5rem); margin: 1.35rem auto 0; }
 .intro-families div { display: grid; gap: .55rem; }
