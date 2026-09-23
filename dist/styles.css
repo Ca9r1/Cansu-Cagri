@@ -48,6 +48,9 @@ button, a { -webkit-tap-highlight-color: transparent; }
   --back-scroll: 0px;
   --mid-scroll: 0px;
   --front-scroll: 0px;
+  --sunset: 0;
+  --night: 0;
+  --scene-ink: #132c45;
   position: sticky;
   top: 0;
   width: 100%;
@@ -70,7 +73,7 @@ button, a { -webkit-tap-highlight-color: transparent; }
   z-index: -5;
   background-image: url("./assets/invitation-art.png");
   opacity: .9;
-  filter: saturate(.8) brightness(1.05);
+  filter: saturate(calc(.8 + var(--sunset) * .35)) brightness(calc(1.05 - var(--night) * .35));
   transform: translate3d(calc(var(--tilt-x) * .18), calc(var(--tilt-y) * .18 + var(--back-scroll)), 0) scale(1.12);
 }
 .art-back::after {
@@ -83,13 +86,36 @@ button, a { -webkit-tap-highlight-color: transparent; }
   z-index: -3;
   background-image: url("./assets/layer-mid.png");
   opacity: .9;
+  filter: saturate(calc(1 + var(--sunset) * .35)) brightness(calc(1 - var(--night) * .38));
   transform: translate3d(calc(var(--tilt-x) * .48), calc(var(--tilt-y) * .48 + var(--mid-scroll)), 0) scale(1.14);
 }
 .art-front {
   z-index: 5;
   background-image: url("./assets/layer-front.png");
+  filter: saturate(calc(1 + var(--sunset) * .28)) brightness(calc(1 - var(--night) * .42));
   transform: translate3d(calc(var(--tilt-x) * .85), calc(var(--tilt-y) * .85 + var(--front-scroll)), 0) scale(1.16);
   pointer-events: none;
+}
+
+.sunset-warm,
+.sunset-night {
+  position: absolute;
+  z-index: 6;
+  inset: 0;
+  pointer-events: none;
+  will-change: opacity;
+}
+.sunset-warm {
+  opacity: var(--sunset);
+  background:
+    radial-gradient(circle at 50% 68%, rgba(255,214,138,.08) 0 13%, rgba(228,113,58,.16) 34%, transparent 58%),
+    linear-gradient(180deg, rgba(250,188,111,.04) 0%, rgba(217,103,60,.22) 58%, rgba(146,57,73,.34) 100%);
+  mix-blend-mode: multiply;
+}
+.sunset-night {
+  opacity: var(--night);
+  background: linear-gradient(180deg, rgba(7,21,44,.72) 0%, rgba(28,37,69,.65) 46%, rgba(95,44,61,.58) 77%, rgba(16,32,52,.84) 100%);
+  mix-blend-mode: multiply;
 }
 
 .paper-orbit {
@@ -103,13 +129,13 @@ button, a { -webkit-tap-highlight-color: transparent; }
   transform: translate3d(-50%, -50%, 0);
   background: rgba(250,244,225,.76);
   border: 1px solid rgba(189,145,68,.22);
-  box-shadow: 0 1.5rem 6rem rgba(112,83,40,.11), inset 0 0 4rem rgba(255,255,255,.4);
+  box-shadow: 0 1.5rem 6rem rgba(112,83,40,.11), 0 0 8rem rgba(222,111,61,var(--sunset)), inset 0 0 4rem rgba(255,255,255,.4);
   backdrop-filter: blur(2px);
   will-change: transform, opacity;
 }
 .hero-beats {
   position: absolute;
-  z-index: 3;
+  z-index: 7;
   inset: 0;
   display: grid;
   place-items: center;
@@ -122,6 +148,8 @@ button, a { -webkit-tap-highlight-color: transparent; }
   opacity: 0;
   transform: translate3d(0, 4rem, 0);
   will-change: opacity, transform;
+  color: var(--scene-ink);
+  text-shadow: 0 1px 1.5rem rgba(7,21,44,calc(var(--night) * .46));
 }
 .hero-beat h1 {
   margin: 0;

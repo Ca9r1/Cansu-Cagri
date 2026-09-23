@@ -24,6 +24,16 @@ function clamp(value, min = 0, max = 1) {
   return Math.min(max, Math.max(min, value));
 }
 
+function smoothProgress(value, start, end) {
+  const progress = clamp((value - start) / (end - start));
+  return progress * progress * (3 - 2 * progress);
+}
+
+function mixColor(from, to, amount) {
+  const mixed = from.map((channel, index) => Math.round(channel + (to[index] - channel) * amount));
+  return `rgb(${mixed.join(', ')})`;
+}
+
 function beatValue(progress, start, peak, end) {
   if (progress <= start || progress >= end) return 0;
   if (progress < peak) return clamp((progress - start) / (peak - start));
@@ -40,9 +50,20 @@ function updateHeroScene() {
   parallaxScene.style.setProperty('--mid-scroll', `${sceneProgress * -32}px`);
   parallaxScene.style.setProperty('--front-scroll', `${sceneProgress * -68}px`);
 
+  const sunset = smoothProgress(sceneProgress, .08, .68);
+  const night = smoothProgress(sceneProgress, .5, 1);
+  const textLight = smoothProgress(sceneProgress, .34, .58);
+  parallaxScene.style.setProperty('--sunset', sunset.toFixed(3));
+  parallaxScene.style.setProperty('--night', night.toFixed(3));
+  parallaxScene.style.setProperty('--scene-ink', mixColor([19, 44, 69], [249, 240, 220], textLight));
+
   const orbitY = -50 + sceneProgress * 78;
   const orbitScale = 1 - sceneProgress * .1;
+  const sunFirst = mixColor([250, 244, 225], [239, 157, 91], sunset);
+  const sunFinal = mixColor([239, 157, 91], [194, 86, 61], night);
   paperOrbit.style.transform = `translate3d(-50%, ${orbitY}%, 0) scale(${orbitScale})`;
+  paperOrbit.style.background = night > .01 ? sunFinal : sunFirst;
+  paperOrbit.style.borderColor = `rgba(189, 112, 59, ${.22 + sunset * .42})`;
   paperOrbit.style.opacity = String(1 - Math.max(0, sceneProgress - .8) * 2.7);
 
   const values = [
