@@ -89,7 +89,7 @@ function updateScrollEffects() {
 window.addEventListener('scroll', updateScrollEffects, { passive: true });
 updateScrollEffects();
 
-const weddingDate = new Date('2026-10-31T18:30:00+03:00');
+const weddingDate = new Date('2026-10-31T19:00:00+03:00');
 const parts = {
   days: document.getElementById('days'),
   hours: document.getElementById('hours'),
@@ -126,7 +126,7 @@ shareButton.addEventListener('click', async () => {
     if (navigator.canShare?.({ files: [file] })) {
       await navigator.share({
         title: 'Cansu & Çağrı — Düğün Davetiyesi',
-        text: '31 Ekim 2026, 18.30 · Suare Event Tuzla',
+        text: '31 Ekim 2026, 19.00 · Suare Event Tuzla',
         files: [file]
       });
       shareStatus.textContent = 'Davetiyemiz paylaşıma hazır.';
@@ -135,7 +135,7 @@ shareButton.addEventListener('click', async () => {
     if (navigator.share) {
       await navigator.share({
         title: 'Cansu & Çağrı — Düğün Davetiyesi',
-        text: '31 Ekim 2026, 18.30 · Suare Event Tuzla',
+        text: '31 Ekim 2026, 19.00 · Suare Event Tuzla',
         url: window.location.href
       });
       return;

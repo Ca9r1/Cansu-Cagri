@@ -64,7 +64,7 @@ Draw-CenteredText '&' $fontAmpersand $coral 356 78 130
 Draw-CenteredText 'Çağrı' $fontName $navy 420 170 130
 
 $graphics.DrawLine($goldPen, 315, 602, 807, 602)
-Draw-CenteredText '31 EKİM 2026  ·  18.30' $fontDate $navy 615 65 130
+Draw-CenteredText '31 EKİM 2026  ·  19.00' $fontDate $navy 615 65 130
 
 $venueText = 'SUARE EVENT'
 $venueSize = $graphics.MeasureString($venueText, $fontVenue)
